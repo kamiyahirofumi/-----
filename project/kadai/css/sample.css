@@ -1,0 +1,83 @@
+body{
+    margin:0;
+    padding:0;
+    text-align:left;
+    font-size: 36px;
+    font-family: "Kokoro";
+}
+header{
+    color: white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+    background-color: rgb(215, 238, 245);
+    /* border-bottom: 1px solid lightblue; */
+    text-align: center;
+}
+/* main{
+    border-bottom:1px solid #ccc;
+} */
+
+/* p{
+    font-size:200%;
+    text-align: center;
+    border-bottom:1px solid #fff;
+    height:200px;
+} */
+Marquee{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+ul{
+    padding: 0;
+    /* border-top:     10px solid #000000; */
+    display:table;  /* 定義 */
+    table-layout: fixed;
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+li{
+    text-align: center;
+    list-style-type:none;
+    border: 1px solid  rgb(215, 238, 245);
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 200px;
+}
+li:hover{
+    background: rgb(215, 238, 245);
+    color:#fff;
+}
+
+#sensekiTbl{
+    margin-left: auto;
+    margin-right: auto;
+}
+th{
+    text-align: center;
+    width: 350px;
+    height: 100px;
+}
+#judgment{
+    margin-top: 80px;
+    text-align: center;
+}
+
+footer{
+    margin-top: 100px;
+    background-color: #fff;
+    /* border-bottom:1px solid lightblue; */
+    text-align: center;
+}
+
+button{
+    font-size: 30px;
+    width: 400px;
+    padding: 10px 0 10px 0;
+    margin:0 10px 0 10px;
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+</head>
+<body>
+
+<header>
+  <h1>じゃんけん アプリ</h1>
+</header>
+
+<main>
+  <div id="jankenGamen">
+    <Marquee behavior="alternate">
+      <div id="you">グー、チョキ、パーをえらんでね。</div>
+    </Marquee>
+    <ul>
+      <li id="gu_btn">グー</li>
+      <li id="cho_btn">チョキ</li>
+      <li id="par_btn">パー</li>
+    </ul>
+    <!-- <div id="cpu">コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div> -->
+    <Marquee behavior="alternate">
+      <div id="cpu"></div>
+    </Marquee>
+    <ul>
+      <li id="pc_hands"></li>
+    </ul>
+    <div  id="judgment"></div>
+  </div>
+
+  <div id="sensekiGamen">
+    <table id="sensekiTbl">
+      <tr>
+        <th>対戦数</th>
+        <th>
+          <span id="taisenKaisu"></span>回  
+        </th>
+      </tr>
+      <tr>
+        <th>勝ち数</th>
+        <th>
+          <span id="winKaisu"></span>回  
+        </th>
+      </tr>
+      <tr>
+        <th>勝率</th>
+        <th>
+          <span id="winPercent"></span>%
+        </th>
+      </tr>
+      <tr>
+        <th>最大連勝数</th>
+        <th>
+          <span id="renshoKaisu"></span>回
+        </th>
+      </tr>
+      <tr>
+        <th>グーの回数</th>
+        <th>
+          <span id="guKaisu"></span>回
+        </th>
+      </tr>
+      <tr>
+        <th>チョキの回数</th>
+        <th>
+          <span id="choKaisu"></span>回
+        </th>
+      </tr>
+      <tr>
+        <th>パーの回数</th>
+        <th>  
+          <span id="parKaisu"></span>回
+        </th>
+      </tr>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  <button id="contiBtn">続ける</button>
+  <button id="jankenBtn">じゃんけんに戻る</button>
+  <button id="sensekiBtn">戦績</button>
+  <button id="sensekiResetBtn">戦績リセット</button>
+</footer>
+<script>
+//じゃんけん用のSCRIPTを書いてください
+//カウント用定数定義
+let taisenCount = sessionStorage.getItem("対戦数");
+if(taisenCount == undefined){
+  taisenCount = 0;
+  sessionStorage.setItem( "対戦数", taisenCount );
+}
+taisenCount = Number(taisenCount);
+// console.log(taisenCount);
+
+let winCount = sessionStorage.getItem( "勝ち数" );
+if(winCount == undefined){
+  winCount = 0;
+  sessionStorage.setItem( "勝ち数", winCount );
+}
+winCount = Number(winCount);
+// console.log(winCount);
+
+let winInRowCount = sessionStorage.getItem( "現在連勝数" );
+if(winInRowCount == undefined){
+  winInRowCount = 0;
+  sessionStorage.setItem( "現在連勝数", winInRowCount );
+}
+winInRowCount = Number(winInRowCount);
+// console.log(winCount);
+
+let winInRowCountMax = sessionStorage.getItem( "最大連勝数" );
+if(winInRowCountMax == undefined){
+  winInRowCountMax = 0;
+  sessionStorage.setItem( "最大連勝数", winInRowCountMax );
+}
+winInRowCountMax = Number(winInRowCountMax);
+// console.log(winCount);
+
+let guCount = sessionStorage.getItem( "グーの回数" );
+if(guCount == undefined){
+  guCount = 0;
+  sessionStorage.setItem( "グーの回数", guCount );
+}
+guCount = Number(guCount);
+// console.log(guCount);
+
+let choCount = sessionStorage.getItem( "チョキの回数" );
+if(choCount == undefined){
+  choCount = 0;
+  sessionStorage.setItem( "チョキの回数", choCount );
+}
+choCount = Number(choCount);
+// console.log(choCount);
+
+let parCount = sessionStorage.getItem( "パーの回数" );
+if(parCount == undefined){
+  parCount = 0;
+  sessionStorage.setItem( "パーの回数", parCount );
+}
+parCount = Number(parCount);
+// console.log(parCount);
+
+//不要箇所を隠す。
+$("#contiBtn").hide();
+$("#jankenBtn").hide();
+$("#sensekiResetBtn").hide();
+$("#sensekiGamen").hide();
+$("#pc_hands").hide();
+//CPUのジャンケン定義
+let num = Math.ceil(Math.random()*3);
+let janken;
+if (num == 1){
+    janken = "グー";
+} else if (num == 2){
+    janken = "チョキ";
+} else{
+    janken = "パー";
+}
+// console.log(num); 
+// console.log(janken);
+
+//グーを出したら
+$('#gu_btn').on('click',function(){
+  $('#you').html('あなたの出した手は');
+  $('#cho_btn').hide();
+  $('#par_btn').hide();
+  $('#cpu').html('コンピュータの出した手は');
+  $('#pc_hands').html(janken);
+  taisenCount +=1;
+  sessionStorage.setItem( "対戦数", taisenCount );
+
+  guCount +=1;
+  // console.log(guCount);
+  sessionStorage.setItem( "グーの回数", guCount );
+  
+  if (janken == "グー"){
+    $('#judgment').html('あいこ');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  } else if (janken == "チョキ"){
+    $('#judgment').html('あなたの勝ち');
+    winCount +=1;
+    sessionStorage.setItem( "勝ち数", winCount );
+    winInRowCount +=1;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+    if(winInRowCount >= winInRowCountMax){
+      winInRowCountMax = winInRowCount;
+      sessionStorage.setItem( "最大連勝数", winInRowCountMax );
+    }
+  } else{
+    $('#judgment').html('あなたの負け');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  } 
+  $("#contiBtn").show();  
+  $("#pc_hands").show();  
+  })
+//チョキを出したら
+$('#cho_btn').on('click',function(){
+  $('#you').html('あなたの出した手は');
+  $('#gu_btn').hide();
+  $('#par_btn').hide();
+  $('#cpu').html('コンピュータの出した手は');
+  $('#pc_hands').html(janken);
+  taisenCount +=1;
+  sessionStorage.setItem( "対戦数", taisenCount );
+
+  choCount +=1;
+  // console.log(choCount);
+  sessionStorage.setItem( "チョキの回数", choCount );
+  
+  if (janken == "グー"){
+    $('#judgment').html('あなたの負け');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  } else if (janken == "チョキ"){
+    $('#judgment').html('あいこ');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  } else{
+    $('#judgment').html('あなたの勝ち');
+    winCount +=1;
+    sessionStorage.setItem( "勝ち数", winCount );
+    winInRowCount +=1;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+    if(winInRowCount >= winInRowCountMax){
+      winInRowCountMax = winInRowCount;
+      sessionStorage.setItem( "最大連勝数", winInRowCountMax );
+    }
+  } 
+  $("#contiBtn").show();
+  $("#pc_hands").show();
+  })
+
+//パーを出したら
+$('#par_btn').on('click',function(){
+  $('#you').html('あなたの出した手は');
+  $('#gu_btn').hide();
+  $('#cho_btn').hide();
+  $('#cpu').html('コンピュータの出した手は');
+  $('#pc_hands').html(janken);
+  taisenCount +=1;
+  sessionStorage.setItem( "対戦数", taisenCount );
+
+  parCount +=1;
+  // console.log(parCount);
+  sessionStorage.setItem( "パーの回数", parCount );
+  
+  if (janken == "グー"){
+    $('#judgment').html('あなたの勝ち');
+    winCount +=1;
+    sessionStorage.setItem( "勝ち数", winCount );
+    winInRowCount +=1;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+    if(winInRowCount >= winInRowCountMax){
+      winInRowCountMax = winInRowCount;
+      sessionStorage.setItem( "最大連勝数", winInRowCountMax );
+    }
+  } else if (janken == "チョキ"){
+    $('#judgment').html('あなたの負け');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  } else{
+    $('#judgment').html('あいこ');
+    winInRowCount = 0;
+    sessionStorage.setItem( "現在連勝数", winInRowCount );
+  }
+   $("#contiBtn").show();
+   $("#pc_hands").show();
+  })
+
+
+
+//続けるボタン
+  $('#contiBtn').on('click',function(){
+  document.location.reload();
+  })
+
+
+//戦績ボタン
+$('#sensekiBtn').on('click',function(){
+  $("header h1").text("戦績");
+  $("#contiBtn").hide();
+  $("#sensekiBtn").hide();
+  $("#jankenBtn").show();
+  $('#jankenGamen').empty();
+  $('#sensekiGamen').show();
+  $('#sensekiResetBtn').show();
+
+  document.getElementById("taisenKaisu").innerHTML = taisenCount;
+  document.getElementById("winKaisu").innerHTML = winCount;
+  let winCountPercent = (winCount / taisenCount * 100).toFixed(1);
+  console.log(winCountPercent);
+  document.getElementById("winPercent").innerHTML = winCountPercent;
+  document.getElementById("renshoKaisu").innerHTML = winInRowCountMax;
+  document.getElementById("guKaisu").innerHTML = guCount;
+  document.getElementById("choKaisu").innerHTML = choCount;
+  document.getElementById("parKaisu").innerHTML = parCount;
+  })
+
+// 戦績リセットボタン
+$('#sensekiResetBtn').on('click',function(){
+  $("#sensekiResetBtn").hide();
+  sessionStorage.clear();
+
+  document.location.reload();
+  })
+
+// ジャンケンに戻るボタン 
+$('#jankenBtn').on('click',function(){
+  document.location.reload();
+  })
+
+
+</script>
+</body>
+</html>
