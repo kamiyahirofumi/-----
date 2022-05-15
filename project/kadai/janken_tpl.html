@@ -155,17 +155,9 @@ $("#sensekiResetBtn").hide();
 $("#sensekiGamen").hide();
 $("#pc_hands").hide();
 //CPUのジャンケン定義
-let num = Math.ceil(Math.random()*3);
-let janken;
-if (num == 1){
-    janken = "グー";
-} else if (num == 2){
-    janken = "チョキ";
-} else{
-    janken = "パー";
-}
-// console.log(num); 
-// console.log(janken);
+const janken = ["グー","チョキ","パー"];
+let num = Math.floor(Math.random()*3);
+
 
 //グーを出したら
 $('#gu_btn').on('click',function(){
@@ -173,7 +165,7 @@ $('#gu_btn').on('click',function(){
   $('#cho_btn').hide();
   $('#par_btn').hide();
   $('#cpu').html('コンピュータの出した手は');
-  $('#pc_hands').html(janken);
+  $('#pc_hands').html(janken[num]);
   taisenCount +=1;
   sessionStorage.setItem( "対戦数", taisenCount );
 
@@ -209,7 +201,7 @@ $('#cho_btn').on('click',function(){
   $('#gu_btn').hide();
   $('#par_btn').hide();
   $('#cpu').html('コンピュータの出した手は');
-  $('#pc_hands').html(janken);
+  $('#pc_hands').html(janken[num]);
   taisenCount +=1;
   sessionStorage.setItem( "対戦数", taisenCount );
 
@@ -246,7 +238,7 @@ $('#par_btn').on('click',function(){
   $('#gu_btn').hide();
   $('#cho_btn').hide();
   $('#cpu').html('コンピュータの出した手は');
-  $('#pc_hands').html(janken);
+  $('#pc_hands').html(janken[num]);
   taisenCount +=1;
   sessionStorage.setItem( "対戦数", taisenCount );
 
